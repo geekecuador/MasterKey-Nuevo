@@ -1,0 +1,108 @@
+{% extends 'account.html' %}
+
+{% block contenido %}
+    <div class="row">
+        <div class="col-xs-4 col-md-10">
+            <center><a class="btn btn-primary btn-lg" role="button" data-toggle="collapse" href="#horarios" aria-expanded="false" aria-controls="collapseExample">Reservaciones de Horarios</a></center>
+            <div class="collapse" id="horarios">
+                <div class="well">
+                 <form  class="form-inline" action="/reserva-curso/" method="POST">
+                 {% csrf_token %}
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <p>Horario</p>
+                            <select class="form-control" name="cursos">
+                              <option value="Z">Seleccione Horario</option>
+                                      {% for curso in cursos %}
+                                      <option value="{{ curso.id }}"> Fecha: {{curso.fecha}} Hora: {{curso.hora_inicio}} </option>
+                                        {% endfor %}
+                            </select>
+                        </div>
+
+
+                    </div><br><br>
+                     <input class="btn btn-primary btn-md" type="submit" value="Guardar">
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-xs-4 col-md-10">
+            <center><a class="btn btn-primary btn-lg" role="button" data-toggle="collapse" href="#talleres" aria-expanded="false" aria-controls="collapseExample">Reservaciones de Talleres</a></center>
+            <div class="collapse" id="talleres">
+                <div class="well">
+                  <form  class="form-inline" action="/reserva-taller/" method="POST">
+                   <input type="hidden" name="form-type" value="taller-form" />
+                  {% csrf_token %}
+                    <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Taller de: </p>
+                            <select class="form-control" name="talleres" id="slt_taller">
+                                     <option value="Z">Seleccione un taller</option>
+                                      {% for taller in talleres %}
+                                      <option value="{{ taller.id}}">{{taller.tema}}</option>
+                                        {% endfor %}
+                             </select>
+
+                        </div>
+
+                        <div class="col-md-6" id="info">
+
+                        </div>
+
+
+                    </div><br><br>
+
+
+                </div>
+                  <input type="submit" class="btn btn-primary btn-md" value="Buscar">
+                </form>
+            </div>
+            </div>
+        </div>
+    </div><br>
+    {% block js %}
+<script>
+
+  $(document).ready(function(){
+
+    $('select[name=talleres]').change(function(){
+        var id = $(this).val();
+
+
+ $.ajax({
+        url : '/info_ajax/', // the endpoint,commonly same url
+        type : "GET", // http method
+        data : {
+        'id' : id,},
+        success : function(json) {
+        console.log(json); // another sanity check
+        var html = "";
+        for(var i = 0;i<json.length;i++){
+        html+='<ul><li> Fecha: '+json[i].fields.fecha+'</li><li> Capacidad: '+
+        json[i].fields.capacidad+'</li></ul>';
+      }
+// + ' <a class="btn btn-primary btn-md" href=http://127.0.0.1:8000/taller/' +json[i].pk+ '>Reservar</a>'
+        $('#info').html(html);
+ },
+
+ // handle a non-successful response
+ error : function(xhr,errmsg,err) {
+ console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+ }
+ });
+
+
+
+            });
+
+        });
+
+
+
+
+</script>
+        {% endblock %}
+{% endblock %}

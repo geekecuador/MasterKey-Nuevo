@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="Django default" uuid="34d4afe9-70f7-460e-9eb3-1c39f0b467fb">
+    <database-info product="MySQL" version="5.6.23-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
+    <schema name="" catalog="masterkey"/>
+    <table name="auth_group" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="80" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="auth_group_permission_group_id_689710a9a73b7457_fk_auth_group_id" table="auth_group_permissions" schema="" catalog="masterkey" columns="group_id"/>
+      <exported-key name="auth_user_groups_group_id_33ac548dcf5f8e37_fk_auth_group_id" table="auth_user_groups" schema="" catalog="masterkey" columns="group_id"/>
+      <index name="name" unique="true" columns="name"/>
+    </table>
+    <table name="auth_group_permissions" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="auth_group__permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="auth_group_permission_group_id_689710a9a73b7457_fk_auth_group_id" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="group_id" unique="true" columns="permission_id"/>
+      <index name="auth_group__permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id" unique="false" columns="permission_id"/>
+    </table>
+    <table name="auth_permission" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="codename" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="auth__content_type_id_508cf46651277a81_fk_django_content_type_id" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="auth_group__permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id" table="auth_group_permissions" schema="" catalog="masterkey" columns="permission_id"/>
+      <exported-key name="auth_user_u_permission_id_384b62483d7071f0_fk_auth_permission_id" table="auth_user_user_permissions" schema="" catalog="masterkey" columns="permission_id"/>
+      <index name="content_type_id" unique="true" columns="codename"/>
+    </table>
+    <table name="auth_user" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="password" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_login" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="is_superuser" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="username" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="first_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="254" scale="0" nullable="false" jdbcType="12"/>
+      <column name="is_staff" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="is_active" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="date_joined" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="auth_user_groups_user_id_4b5ed4ffdb8fd9b0_fk_auth_user_id" table="auth_user_groups" schema="" catalog="masterkey" columns="user_id"/>
+      <exported-key name="auth_user_user_permissi_user_id_7f0938558328534a_fk_auth_user_id" table="auth_user_user_permissions" schema="" catalog="masterkey" columns="user_id"/>
+      <exported-key name="contrato_estudiante_usuario_id_3d5d3f2179ec7d59_fk_auth_user_id" table="contrato_estudiante" schema="" catalog="masterkey" columns="usuario_id"/>
+      <exported-key name="django_admin_log_user_id_52fdd58701c5f563_fk_auth_user_id" table="django_admin_log" schema="" catalog="masterkey" columns="user_id"/>
+      <index name="username" unique="true" columns="username"/>
+    </table>
+    <table name="auth_user_groups" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="auth_user_groups_group_id_33ac548dcf5f8e37_fk_auth_group_id" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="auth_user_groups_user_id_4b5ed4ffdb8fd9b0_fk_auth_user_id" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="user_id" unique="true" columns="group_id"/>
+      <index name="auth_user_groups_group_id_33ac548dcf5f8e37_fk_auth_group_id" unique="false" columns="group_id"/>
+    </table>
+    <table name="auth_user_user_permissions" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="auth_user_u_permission_id_384b62483d7071f0_fk_auth_permission_id" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="auth_user_user_permissi_user_id_7f0938558328534a_fk_auth_user_id" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="user_id" unique="true" columns="permission_id"/>
+      <index name="auth_user_u_permission_id_384b62483d7071f0_fk_auth_permission_id" unique="false" columns="permission_id"/>
+    </table>
+    <table name="contrato_ciudad" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nombre" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="contrato_sede_ciudad_id_3df5f8f23968cbed_fk_contrato_ciudad_id" table="contrato_sede" schema="" catalog="masterkey" columns="ciudad_id"/>
+    </table>
+    <table name="contrato_contrato" schema="" catalog="masterkey" type="TABLE">
+      <column name="numero_contrato" sqlType="VARCHAR" precision="8" scale="0" nullable="false" jdbcType="12"/>
+      <column name="numero_factura" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="nombre" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="apellidos" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fecha_nacimiento" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="cedula" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="254" scale="0" nullable="false" jdbcType="12"/>
+      <column name="direccion_domicilio" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="telefono" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="celular" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="empresa" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="cargo" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="direccion_empresa" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="telefono_empresa" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fecha_creacion" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="duracion" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="sede_firma_contrato_id" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="numero_contrato"/>
+      <foreign-key name="c42d86a498c4151bc82493298a644027" columns="sede_firma_contrato_id" ref-table="contrato_sede" ref-schema="" ref-catalog="masterkey" ref-columns="nombre_sede" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="D16c35ccda0b8ee5a123f42372c267c3" table="contrato_contrato_beneficiarios" schema="" catalog="masterkey" columns="contrato_id"/>
+      <index name="contrato_contrato_8a7fc7dc" unique="false" columns="sede_firma_contrato_id"/>
+    </table>
+    <table name="contrato_contrato_beneficiarios" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="contrato_id" sqlType="VARCHAR" precision="8" scale="0" nullable="false" jdbcType="12"/>
+      <column name="estudiante_id" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="D16c35ccda0b8ee5a123f42372c267c3" columns="contrato_id" ref-table="contrato_contrato" ref-schema="" ref-catalog="masterkey" ref-columns="numero_contrato" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="cont_estudiante_id_195a6c37a96c100_fk_contrato_estudiante_cedula" columns="estudiante_id" ref-table="contrato_estudiante" ref-schema="" ref-catalog="masterkey" ref-columns="cedula" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="contrato_id" unique="true" columns="estudiante_id"/>
+      <index name="cont_estudiante_id_195a6c37a96c100_fk_contrato_estudiante_cedula" unique="false" columns="estudiante_id"/>
+    </table>
+    <table name="contrato_estudiante" schema="" catalog="masterkey" type="TABLE">
+      <column name="cedula" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="foto" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fecha_nacimiento" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="direccion_domicilio" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12"/>
+      <column name="telefono" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fecha_de_inicio" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="fecha_de_expiracion" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="lugar_de_trabajo" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="contacto_de_emergencia" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="relacion_de_contacto_de_emergencia" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="telefono_de_contanto_de_emergencia" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="nivel_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="programa_id" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12"/>
+      <column name="sede_id" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="usuario_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="cedula"/>
+      <foreign-key name="D6c93115cb8d1648c60237cda5ae7da9" columns="programa_id" ref-table="contrato_programa" ref-schema="" ref-catalog="masterkey" ref-columns="nombre_del_programa" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="contrato_e_sede_id_175d4791744d1159_fk_contrato_sede_nombre_sede" columns="sede_id" ref-table="contrato_sede" ref-schema="" ref-catalog="masterkey" ref-columns="nombre_sede" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="contrato_estudian_nivel_id_7a079b655885ded3_fk_contrato_nivel_id" columns="nivel_id" ref-table="contrato_nivel" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="contrato_estudiante_usuario_id_3d5d3f2179ec7d59_fk_auth_user_id" columns="usuario_id" ref-table="auth_user" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="cont_estudiante_id_195a6c37a96c100_fk_contrato_estudiante_cedula" table="contrato_contrato_beneficiarios" schema="" catalog="masterkey" columns="estudiante_id"/>
+      <index name="contrato_estudiante_0687f864" unique="false" columns="sede_id"/>
+      <index name="contrato_estudiante_a2e97051" unique="false" columns="nivel_id"/>
+      <index name="contrato_estudiante_b8c24dbf" unique="false" columns="programa_id"/>
+    </table>
+    <table name="contrato_nivel" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nivel" sqlType="VARCHAR" precision="2" scale="0" nullable="false" jdbcType="12"/>
+      <column name="leccion" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="contrato_estudian_nivel_id_7a079b655885ded3_fk_contrato_nivel_id" table="contrato_estudiante" schema="" catalog="masterkey" columns="nivel_id"/>
+      <exported-key name="estudiante_taller_nivel_id_2e110a94cb1eb359_fk_contrato_nivel_id" table="estudiante_taller" schema="" catalog="masterkey" columns="nivel_id"/>
+    </table>
+    <table name="contrato_profesor" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="cedula" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="nombre" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="apellido" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="sede_id" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="contrato_p_sede_id_3258a475688990ab_fk_contrato_sede_nombre_sede" columns="sede_id" ref-table="contrato_sede" ref-schema="" ref-catalog="masterkey" ref-columns="nombre_sede" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="contrato_p_sede_id_3258a475688990ab_fk_contrato_sede_nombre_sede" unique="false" columns="sede_id"/>
+    </table>
+    <table name="contrato_programa" schema="" catalog="masterkey" type="TABLE">
+      <column name="nombre_del_programa" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="nombre_del_programa"/>
+      <exported-key name="D6c93115cb8d1648c60237cda5ae7da9" table="contrato_estudiante" schema="" catalog="masterkey" columns="programa_id"/>
+    </table>
+    <table name="contrato_sede" schema="" catalog="masterkey" type="TABLE">
+      <column name="nombre_sede" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="direccion" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="telefono" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="hora_inicio" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="hora_fin" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="ciudad_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="nombre_sede"/>
+      <foreign-key name="contrato_sede_ciudad_id_3df5f8f23968cbed_fk_contrato_ciudad_id" columns="ciudad_id" ref-table="contrato_ciudad" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="c42d86a498c4151bc82493298a644027" table="contrato_contrato" schema="" catalog="masterkey" columns="sede_firma_contrato_id"/>
+      <exported-key name="contrato_e_sede_id_175d4791744d1159_fk_contrato_sede_nombre_sede" table="contrato_estudiante" schema="" catalog="masterkey" columns="sede_id"/>
+      <exported-key name="contrato_p_sede_id_3258a475688990ab_fk_contrato_sede_nombre_sede" table="contrato_profesor" schema="" catalog="masterkey" columns="sede_id"/>
+      <exported-key name="estudiant_lugar_id_6e95e272c8745d34_fk_contrato_sede_nombre_sede" table="estudiante_taller" schema="" catalog="masterkey" columns="lugar_id"/>
+      <index name="contrato_sede_ciudad_id_3df5f8f23968cbed_fk_contrato_ciudad_id" unique="false" columns="ciudad_id"/>
+    </table>
+    <table name="django_admin_log" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="action_time" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="object_id" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="object_repr" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="action_flag" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="change_message" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="djang_content_type_id_697914295151027a_fk_django_content_type_id" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="django_admin_log_user_id_52fdd58701c5f563_fk_auth_user_id" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="djang_content_type_id_697914295151027a_fk_django_content_type_id" unique="false" columns="content_type_id"/>
+      <index name="django_admin_log_user_id_52fdd58701c5f563_fk_auth_user_id" unique="false" columns="user_id"/>
+    </table>
+    <table name="django_content_type" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="app_label" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="model" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="auth__content_type_id_508cf46651277a81_fk_django_content_type_id" table="auth_permission" schema="" catalog="masterkey" columns="content_type_id"/>
+      <exported-key name="djang_content_type_id_697914295151027a_fk_django_content_type_id" table="django_admin_log" schema="" catalog="masterkey" columns="content_type_id"/>
+      <index name="django_content_type_app_label_45f3b1d93ec8c61c_uniq" unique="true" columns="app_label,model"/>
+    </table>
+    <table name="django_migrations" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="app" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="applied" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="django_session" schema="" catalog="masterkey" type="TABLE">
+      <column name="session_key" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="session_data" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="expire_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="session_key"/>
+      <index name="django_session_de54fa62" unique="false" columns="expire_date"/>
+    </table>
+    <table name="estudiante_taller" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="tema" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fecha" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="hora_inicio" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="hora_fin" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="capacidad" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="lugar_id" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="nivel_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="profesor_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="estudiant_lugar_id_6e95e272c8745d34_fk_contrato_sede_nombre_sede" columns="lugar_id" ref-table="contrato_sede" ref-schema="" ref-catalog="masterkey" ref-columns="nombre_sede" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="estudiante_taller_nivel_id_2e110a94cb1eb359_fk_contrato_nivel_id" columns="nivel_id" ref-table="contrato_nivel" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="estudiant_lugar_id_6e95e272c8745d34_fk_contrato_sede_nombre_sede" unique="false" columns="lugar_id"/>
+      <index name="estudiante_taller_nivel_id_2e110a94cb1eb359_fk_contrato_nivel_id" unique="false" columns="nivel_id"/>
+    </table>
+    <table name="estudiante_taller_alumnos" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="taller_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="estudiante_id" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="taller_id" unique="true" columns="taller_id,estudiante_id"/>
+    </table>
+  </data-source>
+</component>
