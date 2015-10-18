@@ -64,3 +64,5 @@ class Academic_Rank(models.Model):
     nivel = models.ForeignKey(Nivel)
     firma_alumno = models.BooleanField()
     profesor = models.ForeignKey(Profesor)
+    def __unicode__(self):
+        return self.estudiante.usuario.first_name + " " + self.estudiante.usuario.last_name + "Fecha: " + str(self.fecha)
