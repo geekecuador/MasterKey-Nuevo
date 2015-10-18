@@ -54,6 +54,7 @@ class Academic_Rank(models.Model):
         (R, 'Repeat'),
         (CONT, 'Continue'),
     )
+    estudiante = models.ForeignKey(Estudiante)
     fecha = models.DateField()
     hora = models.TimeField()
     actividad = models.CharField(max_length=35)
@@ -63,4 +64,3 @@ class Academic_Rank(models.Model):
     nivel = models.ForeignKey(Nivel)
     firma_alumno = models.BooleanField()
     profesor = models.ForeignKey(Profesor)
-    estudiante = models.ForeignKey(Estudiante)

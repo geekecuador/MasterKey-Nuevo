@@ -9,7 +9,8 @@ from django.template import RequestContext
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
 from itertools import islice, chain
-from estudiante.models import Taller,Curso
+from estudiante.models import Taller,Curso,Academic_Rank
+from contrato.models import Estudiante
 
 
 # Create your views here.
@@ -78,7 +79,7 @@ def reserva(request):
             taller_actualizar.alumnos.add(usuario.estudiante)
             taller_actualizar.capacidad = taller_actualizar.capacidad - 1
             taller_actualizar.save()
-            
+
             return HttpResponse('Registro exitoso')
         else:
             return HttpResponse('Usted ya se encuentro registrado')
@@ -121,6 +122,19 @@ def update(request, pullo):
 
 	return render_to_response('account.html')
 
+def academic_rank(request):
+    if request.method == 'POST':
+        user = request.user.id
+        usuario = User.objects.get(id=user)
+        estudiante = Estudiante.objects.get(pk=usuario.estudiante.cedula)
+        academic = []
+        academic = Academic_Rank.objects.get(estudiante=estudiante)
+
+        if academic.objects.count() > 0:
+            print 'Hla'
+            return render(request,'academic.html',{'academic':academic}, context_instance=RequestContext(request))
+        else:
+            return render(request,'academic.html',{'academic':academic}, context_instance=RequestContext(request))
 # def buscar(request):
 #     context_instance= RequestContext(request)
 #     if 'talleres' in request.GET and request.GET['talleres']:
