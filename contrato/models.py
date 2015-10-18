@@ -101,5 +101,9 @@ class Profesor(models.Model):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     sede = models.ForeignKey(Sede)
+    horario_inicio_manana = models.TimeField()
+    horario_fin_manana = models.TimeField()
+    horario_inicio_tarde = models.TimeField()
+    horario_fin_tarde = models.TimeField()
     def __unicode__(self):
         return self.nombre + " "+self.apellido

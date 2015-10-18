@@ -33,10 +33,14 @@ def login_user(request):
                 duracion = usuario.estudiante.fecha_de_expiracion
                 startdate = datetime.date.today()+ datetime.timedelta(days=1)
                 enddate = startdate + datetime.timedelta(days=6)
-                cursos = 0
+                cursos = []
                 if Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).count() > 0 :
-                    cursos1 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).filter(tipo_leccion__in=range(usuario.estudiante.nivel.leccion-5,usuario.estudiante.nivel.leccion+6)).filter(tipo_nivel=usuario.estudiante.nivel.nivel).filter(sede=usuario.estudiante.sede)
-                    cursos2 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).filter(tipo_leccion__in=range(usuario.estudiante.nivel.leccion-5,usuario.estudiante.nivel.leccion+6)).filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
+                    cursos1 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
+                        filter(tipo_leccion__in=range(usuario.estudiante.nivel.leccion-5,usuario.estudiante.nivel.leccion+6)).\
+                        filter(tipo_nivel=usuario.estudiante.nivel.nivel).filter(sede=usuario.estudiante.sede)
+                    cursos2 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
+                        filter(tipo_leccion__in=range(usuario.estudiante.nivel.leccion-5,usuario.estudiante.nivel.leccion+6)).\
+                        filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
                     cursos = list(chain(cursos1,cursos2))
                     print cursos
                 talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
@@ -74,6 +78,7 @@ def reserva(request):
             taller_actualizar.alumnos.add(usuario.estudiante)
             taller_actualizar.capacidad = taller_actualizar.capacidad - 1
             taller_actualizar.save()
+            
             return HttpResponse('Registro exitoso')
         else:
             return HttpResponse('Usted ya se encuentro registrado')

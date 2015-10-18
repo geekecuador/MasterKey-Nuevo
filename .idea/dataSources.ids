@@ -136,6 +136,8 @@
       <foreign-key name="contrato_estudian_nivel_id_7a079b655885ded3_fk_contrato_nivel_id" columns="nivel_id" ref-table="contrato_nivel" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="contrato_estudiante_usuario_id_3d5d3f2179ec7d59_fk_auth_user_id" columns="usuario_id" ref-table="auth_user" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="cont_estudiante_id_195a6c37a96c100_fk_contrato_estudiante_cedula" table="contrato_contrato_beneficiarios" schema="" catalog="masterkey" columns="estudiante_id"/>
+      <exported-key name="est_estudiante_id_704582dee38bd63d_fk_contrato_estudiante_cedula" table="estudiante_academic_rank" schema="" catalog="masterkey" columns="estudiante_id"/>
+      <exported-key name="est_estudiante_id_5407492ea482804f_fk_contrato_estudiante_cedula" table="estudiante_curso_estudiantes" schema="" catalog="masterkey" columns="estudiante_id"/>
       <index name="contrato_estudiante_0687f864" unique="false" columns="sede_id"/>
       <index name="contrato_estudiante_a2e97051" unique="false" columns="nivel_id"/>
       <index name="contrato_estudiante_b8c24dbf" unique="false" columns="programa_id"/>
@@ -146,6 +148,8 @@
       <column name="leccion" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="contrato_estudian_nivel_id_7a079b655885ded3_fk_contrato_nivel_id" table="contrato_estudiante" schema="" catalog="masterkey" columns="nivel_id"/>
+      <exported-key name="estudiante_academ_nivel_id_55add1fd2de85a34_fk_contrato_nivel_id" table="estudiante_academic_rank" schema="" catalog="masterkey" columns="nivel_id"/>
+      <exported-key name="estudiante_curso__nivel_id_6345521368291f0e_fk_contrato_nivel_id" table="estudiante_curso_tipo_estudiante" schema="" catalog="masterkey" columns="nivel_id"/>
       <exported-key name="estudiante_taller_nivel_id_2e110a94cb1eb359_fk_contrato_nivel_id" table="estudiante_taller" schema="" catalog="masterkey" columns="nivel_id"/>
     </table>
     <table name="contrato_profesor" schema="" catalog="masterkey" type="TABLE">
@@ -156,6 +160,8 @@
       <column name="sede_id" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
       <foreign-key name="contrato_p_sede_id_3258a475688990ab_fk_contrato_sede_nombre_sede" columns="sede_id" ref-table="contrato_sede" ref-schema="" ref-catalog="masterkey" ref-columns="nombre_sede" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="estudiante__profesor_id_69bae41ceb66df9d_fk_contrato_profesor_id" table="estudiante_academic_rank" schema="" catalog="masterkey" columns="profesor_id"/>
+      <exported-key name="estudiante__profesor_id_3aa8ad67bc641c8b_fk_contrato_profesor_id" table="estudiante_curso" schema="" catalog="masterkey" columns="profesor_id"/>
       <index name="contrato_p_sede_id_3258a475688990ab_fk_contrato_sede_nombre_sede" unique="false" columns="sede_id"/>
     </table>
     <table name="contrato_programa" schema="" catalog="masterkey" type="TABLE">
@@ -175,6 +181,7 @@
       <exported-key name="c42d86a498c4151bc82493298a644027" table="contrato_contrato" schema="" catalog="masterkey" columns="sede_firma_contrato_id"/>
       <exported-key name="contrato_e_sede_id_175d4791744d1159_fk_contrato_sede_nombre_sede" table="contrato_estudiante" schema="" catalog="masterkey" columns="sede_id"/>
       <exported-key name="contrato_p_sede_id_3258a475688990ab_fk_contrato_sede_nombre_sede" table="contrato_profesor" schema="" catalog="masterkey" columns="sede_id"/>
+      <exported-key name="estudiante__sede_id_b45b5cdb70c13f2_fk_contrato_sede_nombre_sede" table="estudiante_curso" schema="" catalog="masterkey" columns="sede_id"/>
       <exported-key name="estudiant_lugar_id_6e95e272c8745d34_fk_contrato_sede_nombre_sede" table="estudiante_taller" schema="" catalog="masterkey" columns="lugar_id"/>
       <index name="contrato_sede_ciudad_id_3df5f8f23968cbed_fk_contrato_ciudad_id" unique="false" columns="ciudad_id"/>
     </table>
@@ -215,6 +222,63 @@
       <column name="expire_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="session_key"/>
       <index name="django_session_de54fa62" unique="false" columns="expire_date"/>
+    </table>
+    <table name="estudiante_academic_rank" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fecha" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="hora" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="actividad" sqlType="VARCHAR" precision="35" scale="0" nullable="false" jdbcType="12"/>
+      <column name="nota" sqlType="VARCHAR" precision="15" scale="0" nullable="false" jdbcType="12"/>
+      <column name="nivel_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="firma_alumno" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="profesor_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="estudiante_id" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="est_estudiante_id_704582dee38bd63d_fk_contrato_estudiante_cedula" columns="estudiante_id" ref-table="contrato_estudiante" ref-schema="" ref-catalog="masterkey" ref-columns="cedula" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="estudiante__profesor_id_69bae41ceb66df9d_fk_contrato_profesor_id" columns="profesor_id" ref-table="contrato_profesor" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="estudiante_academ_nivel_id_55add1fd2de85a34_fk_contrato_nivel_id" columns="nivel_id" ref-table="contrato_nivel" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="est_estudiante_id_704582dee38bd63d_fk_contrato_estudiante_cedula" unique="false" columns="estudiante_id"/>
+      <index name="estudiante__profesor_id_69bae41ceb66df9d_fk_contrato_profesor_id" unique="false" columns="profesor_id"/>
+      <index name="estudiante_academ_nivel_id_55add1fd2de85a34_fk_contrato_nivel_id" unique="false" columns="nivel_id"/>
+    </table>
+    <table name="estudiante_curso" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fecha" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="hora_inicio" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="hora_fin" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="capacidad_maxima" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="sede_id" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="profesor_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="tipo_nivel" sqlType="VARCHAR" precision="2" scale="0" nullable="false" jdbcType="12"/>
+      <column name="tipo_leccion" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="max_tipo" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="estudiante__profesor_id_3aa8ad67bc641c8b_fk_contrato_profesor_id" columns="profesor_id" ref-table="contrato_profesor" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="estudiante__sede_id_b45b5cdb70c13f2_fk_contrato_sede_nombre_sede" columns="sede_id" ref-table="contrato_sede" ref-schema="" ref-catalog="masterkey" ref-columns="nombre_sede" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="estudiante_curs_curso_id_471c9e78a65d1410_fk_estudiante_curso_id" table="estudiante_curso_estudiantes" schema="" catalog="masterkey" columns="curso_id"/>
+      <exported-key name="estudiante_curs_curso_id_7dd6121a2df4a28a_fk_estudiante_curso_id" table="estudiante_curso_tipo_estudiante" schema="" catalog="masterkey" columns="curso_id"/>
+      <index name="estudiante__profesor_id_3aa8ad67bc641c8b_fk_contrato_profesor_id" unique="false" columns="profesor_id"/>
+      <index name="estudiante__sede_id_b45b5cdb70c13f2_fk_contrato_sede_nombre_sede" unique="false" columns="sede_id"/>
+    </table>
+    <table name="estudiante_curso_estudiantes" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="curso_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="estudiante_id" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="est_estudiante_id_5407492ea482804f_fk_contrato_estudiante_cedula" columns="estudiante_id" ref-table="contrato_estudiante" ref-schema="" ref-catalog="masterkey" ref-columns="cedula" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="estudiante_curs_curso_id_471c9e78a65d1410_fk_estudiante_curso_id" columns="curso_id" ref-table="estudiante_curso" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="curso_id" unique="true" columns="estudiante_id"/>
+      <index name="est_estudiante_id_5407492ea482804f_fk_contrato_estudiante_cedula" unique="false" columns="estudiante_id"/>
+    </table>
+    <table name="estudiante_curso_tipo_estudiante" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="curso_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="nivel_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="estudiante_curs_curso_id_7dd6121a2df4a28a_fk_estudiante_curso_id" columns="curso_id" ref-table="estudiante_curso" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="estudiante_curso__nivel_id_6345521368291f0e_fk_contrato_nivel_id" columns="nivel_id" ref-table="contrato_nivel" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="curso_id" unique="true" columns="nivel_id"/>
+      <index name="estudiante_curso__nivel_id_6345521368291f0e_fk_contrato_nivel_id" unique="false" columns="nivel_id"/>
     </table>
     <table name="estudiante_taller" schema="" catalog="masterkey" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>

@@ -36,4 +36,31 @@ class Curso(models.Model):
         verbose_name = 'curso'
         verbose_name_plural = 'cursos'
     def __unicode__(self):
-        return "Fecha: "+str(self.fecha)+" Hora Inicio: "+str(self.hora_inicio) +" Capacidad: "+str(self.capacidad_maxima)
+        return "Fecha: "+str(self.fecha)+" Hora Inicio: "+str(self.hora_inicio) +\
+               " Capacidad: "+str(self.capacidad_maxima)
+
+class Academic_Rank(models.Model):
+    EXC = 'Excellent'
+    VG = 'Very Good'
+    G = 'Good'
+    OK = 'Needs to work at home'
+    R = 'Repeat'
+    CONT = 'Continue'
+    ACADEMIC_RANK_CHOICES = (
+        (EXC, 'Excellent'),
+        (VG, 'Very Good'),
+        (G, 'Good'),
+        (OK, 'Needs to work at home'),
+        (R, 'Repeat'),
+        (CONT, 'Continue'),
+    )
+    fecha = models.DateField()
+    hora = models.TimeField()
+    actividad = models.CharField(max_length=35)
+    nota = models.CharField(max_length=15,
+                                      choices=ACADEMIC_RANK_CHOICES,
+                                      default=G)
+    nivel = models.ForeignKey(Nivel)
+    firma_alumno = models.BooleanField()
+    profesor = models.ForeignKey(Profesor)
+    estudiante = models.ForeignKey(Estudiante)
