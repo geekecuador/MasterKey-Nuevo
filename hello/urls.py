@@ -24,7 +24,6 @@ from estudiante.views import Busqueda_info_ajax
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', login),
-    url(r'^rank/$', 'estudiante.views.academirank',name='academirank'),
 	url(r'^accounts/logout/$', logout),
     url(r'^login/','estudiante.views.login_user',name='login_user'),
     url(r'^(?:signin.html)?$','estudiante.views.login_user',name='login'),
@@ -35,6 +34,7 @@ urlpatterns = [
     url(r'^taller/(?P<pullo>\d+)$', 'estudiante.views.update', name='update'),
     url(r'^reserva-taller/$', views.reserva),
     url(r'^reserva-curso/$', views.reservar_curso),
+    url(r'^academic/$', views.academic_rank),
     # url(r'^buscar/$', views.buscar),
     # url(r'^talleres/', 'estudiante.views.reservaTaller', name='reservaTaller'),
 ]

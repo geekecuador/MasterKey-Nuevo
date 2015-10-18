@@ -56,9 +56,6 @@ def login_user(request):
     return render(request,'signin.html',{'state':state}, context_instance=RequestContext(request))
 
 
-def academirank (request):
-    return render(request,'rank.html',context_instance=RequestContext(request))
-
 class Busqueda_info_ajax(TemplateView):
     def get(self, request, *args, **kwargs):
         id_taller = request.GET['id']
@@ -113,7 +110,6 @@ def reservar_curso(request):
 def update(request, pullo):
     if request.method == 'POST':
         user = request.user.id
-
         taller = Taller.objects.get(pk=pullo)
         print user
         print taller
@@ -123,18 +119,50 @@ def update(request, pullo):
 	return render_to_response('account.html')
 
 def academic_rank(request):
-    if request.method == 'POST':
-        user = request.user.id
-        usuario = User.objects.get(id=user)
-        estudiante = Estudiante.objects.get(pk=usuario.estudiante.cedula)
-        academic = []
-        academic = Academic_Rank.objects.get(estudiante=estudiante)
+    user = request.user.id
+    usuario = User.objects.get(id=user)
+    estudiante = Estudiante.objects.get(pk=usuario.estudiante.cedula)
+    print estudiante
+    academic = []
+    academic = Academic_Rank.objects.all().filter(estudiante=estudiante)
+    print academic
+    if academic.count() > 0:
+        print 'Hla'
+        return  render(request,'rank.html',{'academic':academic})
+    else:
+        print 'else'
+        return render(request,'rank.html',{'academic':academic}, context_instance=RequestContext(request))
 
-        if academic.objects.count() > 0:
-            print 'Hla'
-            return render(request,'academic.html',{'academic':academic}, context_instance=RequestContext(request))
-        else:
-            return render(request,'academic.html',{'academic':academic}, context_instance=RequestContext(request))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def buscar(request):
 #     context_instance= RequestContext(request)
 #     if 'talleres' in request.GET and request.GET['talleres']:

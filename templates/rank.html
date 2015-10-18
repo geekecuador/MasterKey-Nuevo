@@ -2,41 +2,37 @@
 
 {% block contenido %}
     <center><h2>Registro de Academik Rank</h2></center>
-   <div class="table-responsive">            
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Hora</th>
-        <th>Grade</th>
-        <th>Nivel</th>
-        <th>Asistencia</th>
-        <th>Tutor</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>12/02/2015</td>
-        <td>5pm</td>
-        <td>ok</td>
-        <td>A1</td>
-        <td>ok</td>
-        <td>Anibal M.</td>
-      </tr>
-      <tr>
-        <td>12/02/2015</td>
-        <td>5pm</td>
-        <td>ok</td>
-        <td>A1</td>
-        <td>ok</td>
-        <td>Anibal M.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+    <div class="table-responsive">
 
-</body>
-</html>
+        <table class="table">
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Actividad</th>
+                <th>Nota</th>
+                <th>Nivel</th>
+                <th>Firma Alumno</th>
+                <th>Profesor</th>
+            </tr>
 
-                   
+            {% for r in academic %}
+                <tr>
+                    <th> {{ r.fecha }}</th>
+                    <th> {{ r.hora }}</th>
+                    <th> {{ r.actividad }}</th>
+                    <th> {{ r.nota }}</th>
+                <th> {{ r.nivel }}</th>
+                 <th> {{ r.firma_alumno }}</th>
+                <th>{{ r.profesor.nombre }}  {{ r.profesor.apellido }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+
+
+    </div>
+
+    </body>
+    </html>
+
+
 {% endblock %}
