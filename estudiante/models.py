@@ -64,5 +64,18 @@ class Academic_Rank(models.Model):
     nivel = models.ForeignKey(Nivel)
     firma_alumno = models.BooleanField()
     profesor = models.ForeignKey(Profesor)
+
+
+class Estado(models.Model):
+    nombre = models.CharField(max_length=30)
     def __unicode__(self):
-        return self.estudiante.usuario.first_name + " " + self.estudiante.usuario.last_name + "Fecha: " + str(self.fecha)
+        return self.nombre
+
+
+class Seguimiento(models.Model):
+    estudiante =  models.ForeignKey(Estudiante)
+    comentario = models.TextField()
+    estado = models.ForeignKey(Estado)
+
+    def __unicode__(self):
+        return "%s -  %s-  %s" % (self.estudiante,self.comentario,self.estado)

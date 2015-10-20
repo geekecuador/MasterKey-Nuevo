@@ -53,6 +53,9 @@
       <exported-key name="auth_user_user_permissi_user_id_7f0938558328534a_fk_auth_user_id" table="auth_user_user_permissions" schema="" catalog="masterkey" columns="user_id"/>
       <exported-key name="contrato_estudiante_usuario_id_3d5d3f2179ec7d59_fk_auth_user_id" table="contrato_estudiante" schema="" catalog="masterkey" columns="usuario_id"/>
       <exported-key name="django_admin_log_user_id_52fdd58701c5f563_fk_auth_user_id" table="django_admin_log" schema="" catalog="masterkey" columns="user_id"/>
+      <exported-key name="report_builder__user_created_id_6ebaca247590dc8c_fk_auth_user_id" table="report_builder_report" schema="" catalog="masterkey" columns="user_created_id"/>
+      <exported-key name="report_builder_user_modified_id_76c4173bdc4b590c_fk_auth_user_id" table="report_builder_report" schema="" catalog="masterkey" columns="user_modified_id"/>
+      <exported-key name="report_builder_report_s_user_id_3ca1bec6156d1ecb_fk_auth_user_id" table="report_builder_report_starred" schema="" catalog="masterkey" columns="user_id"/>
       <index name="username" unique="true" columns="username"/>
     </table>
     <table name="auth_user_groups" schema="" catalog="masterkey" type="TABLE">
@@ -74,6 +77,29 @@
       <foreign-key name="auth_user_user_permissi_user_id_7f0938558328534a_fk_auth_user_id" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="user_id" unique="true" columns="permission_id"/>
       <index name="auth_user_u_permission_id_384b62483d7071f0_fk_auth_permission_id" unique="false" columns="permission_id"/>
+    </table>
+    <table name="celery_taskmeta" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="task_id" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="status" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="result" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="date_done" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="traceback" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="hidden" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="meta" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="task_id" unique="true" columns="task_id"/>
+      <index name="celery_taskmeta_662f707d" unique="false" columns="hidden"/>
+    </table>
+    <table name="celery_tasksetmeta" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="taskset_id" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="result" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="date_done" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="hidden" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="taskset_id" unique="true" columns="taskset_id"/>
+      <index name="celery_tasksetmeta_662f707d" unique="false" columns="hidden"/>
     </table>
     <table name="contrato_ciudad" schema="" catalog="masterkey" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -211,6 +237,7 @@
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="auth__content_type_id_508cf46651277a81_fk_django_content_type_id" table="auth_permission" schema="" catalog="masterkey" columns="content_type_id"/>
       <exported-key name="djang_content_type_id_697914295151027a_fk_django_content_type_id" table="django_admin_log" schema="" catalog="masterkey" columns="content_type_id"/>
+      <exported-key name="report__root_model_id_49d9257f76ec6404_fk_django_content_type_id" table="report_builder_report" schema="" catalog="masterkey" columns="root_model_id"/>
       <index name="django_content_type_app_label_45f3b1d93ec8c61c_uniq" unique="true" columns="app_label,model"/>
     </table>
     <table name="django_migrations" schema="" catalog="masterkey" type="TABLE">
@@ -226,6 +253,86 @@
       <column name="expire_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="session_key"/>
       <index name="django_session_de54fa62" unique="false" columns="expire_date"/>
+    </table>
+    <table name="djcelery_crontabschedule" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="minute" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="hour" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="day_of_week" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="day_of_month" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="month_of_year" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="djcel_crontab_id_1d8228f5b44b680a_fk_djcelery_crontabschedule_id" table="djcelery_periodictask" schema="" catalog="masterkey" columns="crontab_id"/>
+    </table>
+    <table name="djcelery_intervalschedule" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="every" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="period" sqlType="VARCHAR" precision="24" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="djc_interval_id_20cfc1cad060dfad_fk_djcelery_intervalschedule_id" table="djcelery_periodictask" schema="" catalog="masterkey" columns="interval_id"/>
+    </table>
+    <table name="djcelery_periodictask" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="task" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="args" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="kwargs" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="queue" sqlType="VARCHAR" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="exchange" sqlType="VARCHAR" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="routing_key" sqlType="VARCHAR" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="expires" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="enabled" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="last_run_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="total_run_count" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="date_changed" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="description" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="crontab_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="interval_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="djc_interval_id_20cfc1cad060dfad_fk_djcelery_intervalschedule_id" columns="interval_id" ref-table="djcelery_intervalschedule" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="djcel_crontab_id_1d8228f5b44b680a_fk_djcelery_crontabschedule_id" columns="crontab_id" ref-table="djcelery_crontabschedule" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="name" unique="true" columns="name"/>
+      <index name="djc_interval_id_20cfc1cad060dfad_fk_djcelery_intervalschedule_id" unique="false" columns="interval_id"/>
+      <index name="djcel_crontab_id_1d8228f5b44b680a_fk_djcelery_crontabschedule_id" unique="false" columns="crontab_id"/>
+    </table>
+    <table name="djcelery_periodictasks" schema="" catalog="masterkey" type="TABLE">
+      <column name="ident" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="last_update" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="ident"/>
+    </table>
+    <table name="djcelery_taskstate" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="state" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="task_id" sqlType="VARCHAR" precision="36" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="tstamp" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="args" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="kwargs" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="eta" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="expires" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="result" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="traceback" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="runtime" sqlType="DOUBLE" precision="22" scale="0" nullable="true" jdbcType="8"/>
+      <column name="retries" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="hidden" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="worker_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="djcelery_t_worker_id_30050731b1c3d3d9_fk_djcelery_workerstate_id" columns="worker_id" ref-table="djcelery_workerstate" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="task_id" unique="true" columns="task_id"/>
+      <index name="djcelery_taskstate_662f707d" unique="false" columns="hidden"/>
+      <index name="djcelery_taskstate_863bb2ee" unique="false" columns="tstamp"/>
+      <index name="djcelery_taskstate_9ed39e2e" unique="false" columns="state"/>
+      <index name="djcelery_taskstate_b068931c" unique="false" columns="name"/>
+      <index name="djcelery_taskstate_ce77e6ef" unique="false" columns="worker_id"/>
+    </table>
+    <table name="djcelery_workerstate" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="hostname" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_heartbeat" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="djcelery_t_worker_id_30050731b1c3d3d9_fk_djcelery_workerstate_id" table="djcelery_taskstate" schema="" catalog="masterkey" columns="worker_id"/>
+      <index name="hostname" unique="true" columns="hostname"/>
+      <index name="djcelery_workerstate_f129901a" unique="false" columns="last_heartbeat"/>
     </table>
     <table name="estudiante_academic_rank" schema="" catalog="masterkey" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -306,6 +413,86 @@
       <column name="estudiante_id" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
       <index name="taller_id" unique="true" columns="taller_id,estudiante_id"/>
+    </table>
+    <table name="report_builder_displayfield" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="path" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="path_verbose" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="field" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="field_verbose" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="sort" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="sort_reverse" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="width" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="aggregate" sqlType="VARCHAR" precision="5" scale="0" nullable="false" jdbcType="12"/>
+      <column name="position" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <column name="total" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="group" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="display_format_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="report_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="r_display_format_id_4a1079b882ad9720_fk_report_builder_format_id" columns="display_format_id" ref-table="report_builder_format" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="report_bu_report_id_3eebab33d0ec8ab2_fk_report_builder_report_id" columns="report_id" ref-table="report_builder_report" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="report_builder_displayfield_6f78b20c" unique="false" columns="report_id"/>
+      <index name="report_builder_displayfield_e648f564" unique="false" columns="display_format_id"/>
+    </table>
+    <table name="report_builder_filterfield" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="path" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="path_verbose" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="field" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="field_verbose" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="filter_type" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="filter_value" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="filter_value2" sqlType="VARCHAR" precision="2000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="exclude" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="position" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <column name="report_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="report_bu_report_id_68efeb0436c7a715_fk_report_builder_report_id" columns="report_id" ref-table="report_builder_report" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="report_builder_filterfield_6f78b20c" unique="false" columns="report_id"/>
+    </table>
+    <table name="report_builder_format" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="string" sqlType="VARCHAR" precision="300" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="r_display_format_id_4a1079b882ad9720_fk_report_builder_format_id" table="report_builder_displayfield" schema="" catalog="masterkey" columns="display_format_id"/>
+    </table>
+    <table name="report_builder_report" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="slug" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="description" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="created" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="modified" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="distinct" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="report_file" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="report_file_creation" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="root_model_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="user_created_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="user_modified_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="report__root_model_id_49d9257f76ec6404_fk_django_content_type_id" columns="root_model_id" ref-table="django_content_type" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="report_builder__user_created_id_6ebaca247590dc8c_fk_auth_user_id" columns="user_created_id" ref-table="auth_user" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="report_builder_user_modified_id_76c4173bdc4b590c_fk_auth_user_id" columns="user_modified_id" ref-table="auth_user" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="report_bu_report_id_3eebab33d0ec8ab2_fk_report_builder_report_id" table="report_builder_displayfield" schema="" catalog="masterkey" columns="report_id"/>
+      <exported-key name="report_bu_report_id_68efeb0436c7a715_fk_report_builder_report_id" table="report_builder_filterfield" schema="" catalog="masterkey" columns="report_id"/>
+      <exported-key name="report_bu_report_id_4a197892710e8bd0_fk_report_builder_report_id" table="report_builder_report_starred" schema="" catalog="masterkey" columns="report_id"/>
+      <index name="report__root_model_id_49d9257f76ec6404_fk_django_content_type_id" unique="false" columns="root_model_id"/>
+      <index name="report_builder__user_created_id_6ebaca247590dc8c_fk_auth_user_id" unique="false" columns="user_created_id"/>
+      <index name="report_builder_report_2dbcba41" unique="false" columns="slug"/>
+      <index name="report_builder_user_modified_id_76c4173bdc4b590c_fk_auth_user_id" unique="false" columns="user_modified_id"/>
+    </table>
+    <table name="report_builder_report_starred" schema="" catalog="masterkey" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="report_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="report_bu_report_id_4a197892710e8bd0_fk_report_builder_report_id" columns="report_id" ref-table="report_builder_report" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="report_builder_report_s_user_id_3ca1bec6156d1ecb_fk_auth_user_id" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="masterkey" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="report_id" unique="true" columns="user_id"/>
+      <index name="report_builder_report_s_user_id_3ca1bec6156d1ecb_fk_auth_user_id" unique="false" columns="user_id"/>
     </table>
   </data-source>
 </component>

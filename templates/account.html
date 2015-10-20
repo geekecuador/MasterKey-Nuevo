@@ -1,7 +1,7 @@
-<!DOCTYPE html>		
+<!DOCTYPE html>   
 <html lang="es">
 <head>
-	<meta charset="utf-8">
+  <meta charset="utf-8">
     <title>Gestion de Horarios</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
@@ -24,8 +24,8 @@
     </div>
     <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Reservaciones</a></li>
-        <li><a href="academic/">Academic Rank</a></li>
+        <li class="active"><a href="http://127.0.0.1:8000/cuenta/">Reservaciones</a></li>
+        <li><a href="http://127.0.0.1:8000/academic/">Academic Rank</a></li>
         <li><a href="{% url 'django.contrib.auth.views.logout' %}?next=/">Log out</a></li>
 
       </ul>
@@ -69,6 +69,14 @@
                            Programa:{{programa}}</a>
                              <p></p>
                         </li>
+
+                         <li class="active">
+                            <a href="#">
+                           <i class="fa fa-calendar"></i>
+                           Nivel: {{nivel}}</a>
+
+                        </li>
+
                         <li class="active">
                             <a href="#">
                            <i class="fa fa-calendar"></i>

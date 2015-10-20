@@ -3,6 +3,12 @@
 {% block contenido %}
     <div class="row">
         <div class="col-xs-4 col-md-10">
+        {% if athlete_list %}
+    Reservacion efectuada con exito {{ valor }}
+{% elif athlete_in_locker_room_list %}
+
+
+{% endif %}
             <center><a class="btn btn-primary btn-lg" role="button" data-toggle="collapse" href="#horarios" aria-expanded="false" aria-controls="collapseExample">Reservaciones de Horarios</a></center>
             <div class="collapse" id="horarios">
                 <div class="well">
@@ -14,14 +20,15 @@
                             <select class="form-control" name="cursos">
                               <option value="Z">Seleccione Horario</option>
                                       {% for curso in cursos %}
-                                      <option value="{{ curso.id }}"> Fecha: {{curso.fecha}} Hora: {{curso.hora_inicio}} </option>
+                                      <option value="{{ curso.id }}"> Fecha: {{curso.fecha}} /Hora: {{curso.hora_inicio}}-/-{{curso.hora_inicio}}</option>
                                         {% endfor %}
                             </select>
                         </div>
 
 
                     </div><br><br>
-                     <input class="btn btn-primary btn-md" type="submit" value="Guardar">
+                        {{ state }}
+                     <input class="btn btn-primary btn-md" type="submit" value="Reservar">
                   </form>
                 </div>
             </div>
@@ -29,6 +36,12 @@
     </div><br>
     <div class="row">
         <div class="col-xs-4 col-md-10">
+        {% if athlete_list %}
+    Rservcaion con exito {{ athlete_list|length }}
+{% elif athlete_in_locker_room_list %}
+    Problemas en la reservacion
+
+{% endif %}
             <center><a class="btn btn-primary btn-lg" role="button" data-toggle="collapse" href="#talleres" aria-expanded="false" aria-controls="collapseExample">Reservaciones de Talleres</a></center>
             <div class="collapse" id="talleres">
                 <div class="well">
@@ -57,7 +70,7 @@
 
 
                 </div>
-                  <input type="submit" class="btn btn-primary btn-md" value="Buscar">
+                  <input type="submit" class="btn btn-primary btn-md" value="Reservar">
                 </form>
             </div>
             </div>

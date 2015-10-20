@@ -35,6 +35,9 @@ urlpatterns = [
     url(r'^reserva-taller/$', views.reserva),
     url(r'^reserva-curso/$', views.reservar_curso),
     url(r'^academic/$', views.academic_rank),
+    url(r'^cuenta/$', views.cuenta),
+    url(r'^report_builder/', include('report_builder.urls')),
+
     # url(r'^buscar/$', views.buscar),
     # url(r'^talleres/', 'estudiante.views.reservaTaller', name='reservaTaller'),
 ]

@@ -45,6 +45,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+'report_builder',
+    'djcelery',
     'master',
     'contrato',
     'estudiante',
@@ -76,6 +78,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
+                'django.template.context_processors.media',
+
             ],
         },
     },
@@ -125,3 +130,10 @@ STATIC_ROOT = '/static/'
 
 MEDIA_ROOT = 'media/'
 MEDIA_URL = 'http://127.0.0.1:8000/media/'
+
+REPORT_BUILDER_INCLUIDE = []
+
+
+# report_builder_model_manager = on_site
+REPORT_BUILDER_GLOBAL_EXPORT = True
+REPORT_BUILDER_ASYNC_REPORT = True

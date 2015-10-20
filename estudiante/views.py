@@ -34,7 +34,9 @@ def login_user(request):
                 duracion = usuario.estudiante.fecha_de_expiracion
                 startdate = datetime.date.today()+ datetime.timedelta(days=1)
                 enddate = startdate + datetime.timedelta(days=6)
+                nivel  = usuario.estudiante.nivel
                 cursos = []
+                talleres = []
                 if Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).count() > 0 :
                     cursos1 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
                         filter(tipo_leccion__in=range(usuario.estudiante.nivel.leccion-5,usuario.estudiante.nivel.leccion+6)).\
@@ -47,7 +49,7 @@ def login_user(request):
                 talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
                 print talleres
                 # .filter(hora_inicio__gt=time.strftime("%H:%M:%S"))
-                return render(request,'contenido.html',{'username':username,'fecha':fecha,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos})
+                return render(request,'contenido.html',{'username':username,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos,'nivel':nivel})
             else:
                 state = "Tu cuenta esta desactivada por favor acercarce a oficinas."
         else:
@@ -55,6 +57,36 @@ def login_user(request):
 
     return render(request,'signin.html',{'state':state}, context_instance=RequestContext(request))
 
+def cuenta(request):
+    state = "Conectado con exito"
+    user = request.user.id
+    print 'Imprimiendo en usuario'
+    print user
+    usuario = User.objects.get(id=user)
+    print usuario
+    fotourl = usuario.estudiante.foto.url
+    cedula = usuario.estudiante.cedula
+    telefono = usuario.estudiante.telefono
+    fecha = datetime.datetime.today()
+    programa = usuario.estudiante.programa.nombre_del_programa
+    duracion = usuario.estudiante.fecha_de_expiracion
+    startdate = datetime.date.today()+ datetime.timedelta(days=1)
+    enddate = startdate + datetime.timedelta(days=6)
+    nivel  = usuario.estudiante.nivel
+    cursos = []
+    talleres = []
+    if Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).count() > 0 :
+        cursos1 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
+        filter(tipo_leccion__in=range(usuario.estudiante.nivel.leccion-5,usuario.estudiante.nivel.leccion+6)).\
+        filter(tipo_nivel=usuario.estudiante.nivel.nivel).filter(sede=usuario.estudiante.sede)
+        cursos2 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
+                    filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
+        cursos = list(chain(cursos1,cursos2))
+        print cursos
+        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+        print talleres
+        # .filter(hora_inicio__gt=time.strftime("%H:%M:%S"))
+    return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos,'nivel':nivel})
 
 class Busqueda_info_ajax(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -107,6 +139,7 @@ def reservar_curso(request):
             return HttpResponse('El curso seleccionado,se encuentra fuera del rango. Por favor seleccione otro curso.')
     else:
         return HttpResponse('Error en la reserva, por favor contactarse con la administracion.')
+
 def update(request, pullo):
     if request.method == 'POST':
         user = request.user.id
@@ -116,49 +149,22 @@ def update(request, pullo):
         return HttpResponseRedirect('/clientes/')
     else:
 
-	return render_to_response('account.html')
+        return render_to_response('account.html')
 
 def academic_rank(request):
     user = request.user.id
     usuario = User.objects.get(id=user)
     estudiante = Estudiante.objects.get(pk=usuario.estudiante.cedula)
+    nivel  = usuario.estudiante.nivel
     print estudiante
     academic = []
     academic = Academic_Rank.objects.all().filter(estudiante=estudiante)
     print academic
     if academic.count() > 0:
-        print 'Hla'
-        return  render(request,'rank.html',{'academic':academic})
+
+        return  render(request,'rank.html',{'academic':academic,'username':request.user,'duracion':estudiante.fecha_de_expiracion,'fotourl':estudiante.foto.url,'cedula':estudiante.cedula,'telefono':estudiante.telefono,'programa':estudiante.programa,'nivel':nivel})
     else:
-        print 'else'
         return render(request,'rank.html',{'academic':academic}, context_instance=RequestContext(request))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
