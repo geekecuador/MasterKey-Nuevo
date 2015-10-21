@@ -124,7 +124,7 @@ def reserva(request):
                         filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
             cursos = list(chain(cursos1,cursos2))
             print cursos
-            talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+            talleres = Taller.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
             print talleres
         if taller_actualizar.alumnos.all().filter(pk=usuario.estudiante.cedula).count() == 0:
             taller_actualizar.alumnos.add(usuario.estudiante)
@@ -163,7 +163,7 @@ def reservar_curso(request):
                         filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
             cursos = list(chain(cursos1,cursos2))
             print cursos
-            talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+            talleres = Taller.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
             print talleres
         if curso_actualizar.tipo_nivel == 'xx' or curso_actualizar.tipo_leccion == 0:
             curso_actualizar.tipo_nivel = usuario.estudiante.nivel.nivel
