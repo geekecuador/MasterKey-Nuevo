@@ -94,5 +94,13 @@ class Profesor(models.Model):
     horario_fin_manana = models.TimeField(blank=True)
     horario_inicio_tarde = models.TimeField(blank=True)
     horario_fin_tarde = models.TimeField(blank=True)
+    lunes = models.BooleanField()
+    martes = models.BooleanField()
+    miercoles = models.BooleanField()
+    jueves = models.BooleanField()
+    viernes = models.BooleanField()
+    sabado = models.BooleanField()
+    domingo = models.BooleanField()
+
     def __unicode__(self):
         return self.nombre + " "+self.apellido
