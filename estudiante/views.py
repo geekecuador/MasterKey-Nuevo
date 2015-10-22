@@ -192,7 +192,7 @@ def reservar_curso(request):
 
 @login_required
 def reservaTaller(request):
-    estado = False
+    estadoTaller = False
     if request.method == 'POST':
         user = request.user.id
         usuario = User.objects.get(id=user)
@@ -207,7 +207,7 @@ def reservaTaller(request):
         nivel  = usuario.estudiante.nivel
         cursos = []
         talleres = []
-        taller = request.POST.get('talleres')
+        taller = request.POST.get('talleresg')
         taller_actualizar = TallerGeneral.objects.get(pk=taller)
         if Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).count() > 0 :
             cursos1 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
@@ -224,12 +224,12 @@ def reservaTaller(request):
             taller_actualizar.alumnos.add(usuario.estudiante)
             taller_actualizar.capacidad = taller_actualizar.capacidad - 1
             taller_actualizar.save()
-            estado = True
-            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado1':estado})
+            estadoTaller = True
+            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado1':estadoTaller})
         else:
-            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado1':estado})
+            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado1':estadoTaller})
     else:
-        return render(request,'contenido.html',{'estado':estado})
+        return render(request,'contenido.html',{'estado':estadoTaller})
 
 
 
