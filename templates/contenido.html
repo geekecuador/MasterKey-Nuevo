@@ -4,9 +4,10 @@
     <div class="row">
         <div class="col-xs-4 col-md-10">
         {% if estado %}
-    Reservación efectuada con exito
-{% endif %}
-            <center><a class="btn btn-primary btn-lg" role="button" data-toggle="collapse" href="#horarios" aria-expanded="false" aria-controls="collapseExample">Reservaciones de Horarios</a></center>
+        <p class="bg-success"> Reservación efectuada con exito</p>
+        {% endif %}
+            <center><img class="responsive" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5RpsOjKRen0j_YBa2LBoIOiNXTznaPMWDXzlyV-38WmE_MP8Dig"></center><br><br>
+            <center><a class="btn btn-warning btn-lg" role="button" data-toggle="collapse" href="#horarios" aria-expanded="false" aria-controls="collapseExample">Reservaciones de Horarios</a></center>
             <div class="collapse" id="horarios">
                 <div class="well">
                  <form  class="form-inline" action="/reserva-curso/" method="POST">
@@ -17,7 +18,7 @@
                             <select class="form-control" name="cursos">
                               <option value="Z">Seleccione Horario</option>
                                       {% for curso in cursos %}
-                                      <option value="{{ curso.id }}"> Fecha: {{curso.fecha}} /Hora: {{curso.hora_inicio}}-/-{{curso.hora_inicio}}</option>
+                                      <option value="{{ curso.id }}"> Fecha: {{curso.fecha}} /Hora: {{curso.hora_inicio}}-/-{{curso.hora_fin}}</option>
                                         {% endfor %}
                             </select>
                         </div>
@@ -25,7 +26,7 @@
 
                     </div><br><br>
                         {{ state }}
-                     <input class="btn btn-primary btn-md" type="submit" value="Reservar">
+                     <center><input class="btn btn-warning btn-md" type="submit" value="Reservar"></center>
                   </form>
                 </div>
             </div>
@@ -34,9 +35,9 @@
     <div class="row">
         <div class="col-xs-4 col-md-10">
          {% if estado1 %}
-    Reservación efectuada con exito
-{% endif %}
-            <center><a class="btn btn-primary btn-lg" role="button" data-toggle="collapse" href="#talleres" aria-expanded="false" aria-controls="collapseExample">Reservaciones de Talleres</a></center>
+          <p class="bg-success"> Reservación efectuada con exito</p>
+         {% endif %}
+            <center><a class="btn btn-danger btn-lg" role="button" data-toggle="collapse" href="#talleres" aria-expanded="false" aria-controls="collapseExample">Reservaciones de Talleres</a></center>
             <div class="collapse" id="talleres">
                 <div class="well">
                   <form  class="form-inline" action="/reserva-taller/" method="POST">
@@ -44,7 +45,7 @@
                   {% csrf_token %}
                     <div class="form-group">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <p>Taller de: </p>
                             <select class="form-control" name="talleres" id="slt_taller">
                                      <option value="Z">Seleccione un taller</option>
@@ -52,26 +53,19 @@
                                       <option value="{{ taller.id}}">{{taller.tema}}</option>
                                         {% endfor %}
                              </select>
-
                         </div>
-
-                        <div class="col-md-6" id="info">
-
+                        <div class="col-md-12" id="info">
                         </div>
-
-
                     </div><br><br>
-
-
                 </div>
-                  <input type="submit" class="btn btn-primary btn-md" value="Reservar">
+                 <center> <input type="submit" class="btn btn-danger btn-md" value="Reservar"></center>
                 </form>
             </div>
             </div>
         </div>
     </div><br>
 
-    <div class="row">
+     <div class="row">
         <div class="col-xs-4 col-md-10">
          {% if estadoTaller %}
     Reservación efectuada con exito
@@ -110,6 +104,9 @@
             </div>
         </div>
     </div><br>
+
+
+
     {% block js %}
 <script>
 

@@ -1,8 +1,7 @@
 body {
-        background-color:#dedddd;
+        background-image: url(http://masterkey.com.ec/img/s1.jpg);
       
 }
-
 .profile {
   margin: 20px 0;
 }
@@ -104,4 +103,11 @@ body {
   padding: 20px;
   background: #fff;
   min-height: 460px;
+}
+.footer{
+  background-color:#585858;
+  color: white;
+}
+#logo{
+  margin-top: -10%;
 }
