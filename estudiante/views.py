@@ -9,7 +9,7 @@ from django.template import RequestContext
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
 from itertools import islice, chain
-from estudiante.models import Taller,Curso,Academic_Rank
+from estudiante.models import Taller,Curso,Academic_Rank,TallerGeneral
 from contrato.models import Estudiante
 from django.contrib.auth.decorators import login_required
 
@@ -47,9 +47,10 @@ def login_user(request):
                     cursos = list(chain(cursos1,cursos2))
                     print cursos
                 talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+                talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
                 print talleres
                 # .filter(hora_inicio__gt=time.strftime("%H:%M:%S"))
-                return render(request,'contenido.html',{'username':username,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos,'nivel':nivel})
+                return render(request,'contenido.html',{'username':username,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel})
             else:
                 state = "Tu cuenta esta desactivada por favor acercarce a oficinas."
         else:
@@ -83,10 +84,11 @@ def cuenta(request):
                     filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
         cursos = list(chain(cursos1,cursos2))
         print cursos
-        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
-        print talleres
+    talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+    talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+    print talleres
         # .filter(hora_inicio__gt=time.strftime("%H:%M:%S"))
-    return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos,'nivel':nivel})
+    return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel})
 
 class Busqueda_info_ajax(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -124,16 +126,17 @@ def reserva(request):
                         filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
             cursos = list(chain(cursos1,cursos2))
             print cursos
-            talleres = Taller.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
-            print talleres
+        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+        print talleres
+        talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
         if taller_actualizar.alumnos.all().filter(pk=usuario.estudiante.cedula).count() == 0:
             taller_actualizar.alumnos.add(usuario.estudiante)
             taller_actualizar.capacidad = taller_actualizar.capacidad - 1
             taller_actualizar.save()
             estado = True
-            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos,'nivel':nivel,'estado1':estado})
+            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado1':estado})
         else:
-            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos,'nivel':nivel,'estado1':estado})
+            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado1':estado})
     else:
         return render(request,'contenido.html',{'estado':estado})
 @login_required
@@ -163,8 +166,9 @@ def reservar_curso(request):
                         filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
             cursos = list(chain(cursos1,cursos2))
             print cursos
-            talleres = Taller.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
-            print talleres
+        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+        talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+        print talleres
         if curso_actualizar.tipo_nivel == 'xx' or curso_actualizar.tipo_leccion == 0:
             curso_actualizar.tipo_nivel = usuario.estudiante.nivel.nivel
             curso_actualizar.tipo_leccion = usuario.estudiante.nivel.leccion
@@ -177,13 +181,57 @@ def reservar_curso(request):
                 curso_actualizar.tipo_estudiante.add(usuario.estudiante.nivel)
                 curso_actualizar.save()
                 estado = True
-                return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos,'nivel':nivel,'estado':estado})
+                return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado':estado})
             else:
-                return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos,'nivel':nivel,'estado':estado})
+                return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado':estado})
         else:
-            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'cursos':cursos,'nivel':nivel,'estado':estado})
+            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado':estado})
     else:
         return render(request,'contenido.html',{'estado:':estado})
+
+
+@login_required
+def reservaTaller(request):
+    estado = False
+    if request.method == 'POST':
+        user = request.user.id
+        usuario = User.objects.get(id=user)
+        fotourl = usuario.estudiante.foto.url
+        cedula = usuario.estudiante.cedula
+        telefono = usuario.estudiante.telefono
+        fecha = datetime.datetime.today()
+        programa = usuario.estudiante.programa.nombre_del_programa
+        duracion = usuario.estudiante.fecha_de_expiracion
+        startdate = datetime.date.today()+ datetime.timedelta(days=1)
+        enddate = startdate + datetime.timedelta(days=6)
+        nivel  = usuario.estudiante.nivel
+        cursos = []
+        talleres = []
+        taller = request.POST.get('talleres')
+        taller_actualizar = TallerGeneral.objects.get(pk=taller)
+        if Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).count() > 0 :
+            cursos1 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
+                        filter(tipo_leccion__in=range(usuario.estudiante.nivel.leccion-5,usuario.estudiante.nivel.leccion+6)).\
+                        filter(tipo_nivel=usuario.estudiante.nivel.nivel).filter(sede=usuario.estudiante.sede)
+            cursos2 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
+                        filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
+            cursos = list(chain(cursos1,cursos2))
+            print cursos
+        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+        talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+        print talleres
+        if taller_actualizar.alumnos.all().filter(pk=usuario.estudiante.cedula).count() == 0:
+            taller_actualizar.alumnos.add(usuario.estudiante)
+            taller_actualizar.capacidad = taller_actualizar.capacidad - 1
+            taller_actualizar.save()
+            estado = True
+            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado1':estado})
+        else:
+            return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel,'estado1':estado})
+    else:
+        return render(request,'contenido.html',{'estado':estado})
+
+
 
 def update(request, pullo):
     if request.method == 'POST':

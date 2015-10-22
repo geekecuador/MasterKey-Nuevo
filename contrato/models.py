@@ -35,6 +35,7 @@ class Sede(models.Model):
 class Nivel(models.Model):
     nivel =  models.CharField(max_length=2)
     leccion = models.IntegerField()
+    tema = models.CharField(max_length=35)
     def __unicode__(self):
         return self.nivel + ' '+str(self.leccion)
 

@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^info_ajax/$',Busqueda_info_ajax.as_view()),
     url(r'^taller/(?P<pullo>\d+)$', 'estudiante.views.update', name='update'),
     url(r'^reserva-taller/$', views.reserva),
+    url(r'^reserva-tallerg/$', views.reservaTaller),
     url(r'^reserva-curso/$', views.reservar_curso),
     url(r'^academic/$', views.academic_rank),
     url(r'^cuenta/$', views.cuenta),

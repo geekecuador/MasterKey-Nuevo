@@ -70,6 +70,46 @@
             </div>
         </div>
     </div><br>
+
+    <div class="row">
+        <div class="col-xs-4 col-md-10">
+         {% if estado1 %}
+    Reservación efectuada con exito
+{% endif %}
+            <center><a class="btn btn-primary btn-lg" role="button" data-toggle="collapse" href="#talleresg" aria-expanded="false" aria-controls="collapseExample">Reservaciones de Talleres Generales</a></center>
+            <div class="collapse" id="talleresg">
+                <div class="well">
+                  <form  class="form-inline" action="/reserva-tallerg/" method="POST">
+                   <input type="hidden" name="form-type" value="taller-form" />
+                  {% csrf_token %}
+                    <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Taller de: </p>
+                            <select class="form-control" name="talleresg" id="slt_taller">
+                                     <option value="Z">Seleccione un taller general</option>
+                                      {% for taller in talleresg %}
+                                      <option value="{{ taller.id}}">{{taller.tema}}</option>
+                                        {% endfor %}
+                             </select>
+
+                        </div>
+
+                        <div class="col-md-6" id="info">
+
+                        </div>
+
+
+                    </div><br><br>
+
+
+                </div>
+                  <input type="submit" class="btn btn-primary btn-md" value="Reservar">
+                </form>
+            </div>
+            </div>
+        </div>
+    </div><br>
     {% block js %}
 <script>
 

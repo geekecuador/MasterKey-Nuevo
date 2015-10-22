@@ -19,6 +19,22 @@ class Taller(models.Model):
     def __unicode__(self):
         return self.tema
 
+class TallerGeneral(models.Model):
+    tema = models.CharField(max_length=30)
+    fecha = models.DateField()
+    hora_inicio = models.TimeField()
+    hora_fin = models.TimeField()
+    capacidad = models.IntegerField()
+    profesor = models.ForeignKey(Profesor)
+    lugar = models.ForeignKey(Sede)
+    alumnos = models.ManyToManyField(Estudiante, blank=True)
+    class meta:
+        app_label = 'Tallerg'
+        verbose_name = 'taller general'
+        verbose_name_plural = 'talleres generales'
+    def __unicode__(self):
+        return self.tema
+
 class Curso(models.Model):
     fecha =  models.DateField()
     hora_inicio = models.TimeField()
@@ -38,6 +54,7 @@ class Curso(models.Model):
     def __unicode__(self):
         return "Fecha: "+str(self.fecha)+" Hora Inicio: "+str(self.hora_inicio) +\
                " Capacidad: "+str(self.capacidad_maxima)
+
 
 class Academic_Rank(models.Model):
     EXC = 'Excellent'
