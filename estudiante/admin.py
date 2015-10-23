@@ -5,13 +5,13 @@ from models import Taller,Curso,Academic_Rank,Seguimiento,Estado,TallerGeneral
 class Academic_RankAdmin(admin.ModelAdmin):
     list_display = ('estudiante', 'fecha','hora','actividad','nota','nivel','firma_alumno','profesor',)
     list_editable = ('actividad','nota','nivel','firma_alumno','profesor',)
-    search_fields = ('estudiante',)
+    search_fields = ('estudiante__cedula',)
     ordering = ('-fecha',)
     raw_id_fields = ('estudiante',)
 
 class TallerAdmin(admin.ModelAdmin):
 	list_display = ('tema','fecha','hora_inicio','hora_fin','capacidad','profesor','lugar','nivel',)
-	filter_horizontal = ('alumnos',)
+	filter_horizontal = ('estudiantes',)
 
 class TallerGAdmin(admin.ModelAdmin):
     list_display = ('tema','fecha','hora_inicio','hora_fin','capacidad','profesor','lugar',)

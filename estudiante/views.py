@@ -41,12 +41,12 @@ def login_user(request):
                 if Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).count() > 0 :
                     cursos1 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
                         filter(tipo_leccion__in=range(usuario.estudiante.nivel.leccion-5,usuario.estudiante.nivel.leccion+6)).\
-                        filter(tipo_nivel=usuario.estudiante.nivel.nivel).filter(sede=usuario.estudiante.sede)
+                        filter(tipo_nivel=usuario.estudiante.nivel.nivel).filter(sede=usuario.estudiante.sede).exclude(tipo_nivel='xx')
                     cursos2 = Curso.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad_maxima__gt=0).\
                         filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
                     cursos = list(chain(cursos1,cursos2))
                     print cursos
-                talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+                talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
                 talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
                 print talleres
                 # .filter(hora_inicio__gt=time.strftime("%H:%M:%S"))
@@ -85,7 +85,7 @@ def cuenta(request):
         cursos = list(chain(cursos1,cursos2))
         print cursos
     talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
-    talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+    talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
     print talleres
         # .filter(hora_inicio__gt=time.strftime("%H:%M:%S"))
     return render(request,'contenido.html',{'username':request.user,'fecha':fecha,'duracion':duracion,'fotourl':fotourl,'cedula':cedula,'telefono':telefono,'programa':programa,'talleres':talleres,'talleresg':talleresg,'cursos':cursos,'nivel':nivel})
@@ -126,11 +126,12 @@ def reserva(request):
                         filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
             cursos = list(chain(cursos1,cursos2))
             print cursos
-        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
         print talleres
         talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
-        if taller_actualizar.alumnos.all().filter(pk=usuario.estudiante.cedula).count() == 0:
-            taller_actualizar.alumnos.add(usuario.estudiante)
+        if taller_actualizar.estudiantes.all().filter(pk=usuario.estudiante.cedula).count() == 0:
+            taller_actualizar.estudiantes.add(usuario.estudiante)
+
             taller_actualizar.capacidad = taller_actualizar.capacidad - 1
             taller_actualizar.save()
             estado = True
@@ -166,7 +167,7 @@ def reservar_curso(request):
                         filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
             cursos = list(chain(cursos1,cursos2))
             print cursos
-        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
         talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
         print talleres
         if curso_actualizar.tipo_nivel == 'xx' or curso_actualizar.tipo_leccion == 0:
@@ -176,6 +177,7 @@ def reservar_curso(request):
         curso_actualizar = Curso.objects.get(pk=curso)
         if curso_actualizar.tipo_estudiante.count()< curso_actualizar.max_tipo:
             if curso_actualizar.estudiantes.all().filter(pk=usuario.estudiante.cedula).count() == 0:
+                usuario.estudiante.nivel.leccion = usuario.estudiante.nivel.leccion + 1
                 curso_actualizar.estudiantes.add(usuario.estudiante)
                 curso_actualizar.capacidad_maxima = curso_actualizar.capacidad_maxima - 1
                 curso_actualizar.tipo_estudiante.add(usuario.estudiante.nivel)
@@ -217,7 +219,7 @@ def reservaTaller(request):
                         filter(tipo_nivel='xx').filter(sede=usuario.estudiante.sede)
             cursos = list(chain(cursos1,cursos2))
             print cursos
-        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
+        talleres = Taller.objects.filter(nivel=usuario.estudiante.nivel.nivel).filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
         talleresg = TallerGeneral.objects.filter(fecha__range=[startdate, enddate]).filter(capacidad__gt=0).filter(lugar=usuario.estudiante.sede)
         print talleres
         if taller_actualizar.alumnos.all().filter(pk=usuario.estudiante.cedula).count() == 0:

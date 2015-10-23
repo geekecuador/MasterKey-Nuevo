@@ -10,8 +10,8 @@ class Taller(models.Model):
     capacidad = models.IntegerField()
     profesor = models.ForeignKey(Profesor)
     lugar = models.ForeignKey(Sede)
-    nivel = models.ForeignKey(Nivel)
-    alumnos = models.ManyToManyField(Estudiante, blank=True)
+    nivel = models.CharField(max_length=2)
+    estudiantes = models.ManyToManyField(Estudiante,related_name='alumnos', blank=True)
     class meta:
         app_label = 'Taller'
         verbose_name = 'taller'
