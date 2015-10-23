@@ -81,7 +81,7 @@ class Academic_Rank(models.Model):
     nivel = models.ForeignKey(Nivel)
     firma_alumno = models.BooleanField()
     profesor = models.ForeignKey(Profesor)
-
+    comentario = models.CharField(max_length=50)
 
 class Estado(models.Model):
     nombre = models.CharField(max_length=30)

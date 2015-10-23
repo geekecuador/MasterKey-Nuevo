@@ -22,7 +22,13 @@
                     <th> {{ r.actividad }}</th>
                     <th> {{ r.nota }}</th>
                 <th> {{ r.nivel }}</th>
-                 <th> {{ r.firma_alumno }}</th>
+                 <th>
+                 {% if r.firma_alumno %}
+          Attended
+                     {% elif r.firma_alumno %}
+                    Not attend
+         {% endif %}
+                 </th>
                 <th>{{ r.profesor.nombre }}  {{ r.profesor.apellido }}</th>
                 </tr>
             {% endfor %}
